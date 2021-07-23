@@ -1,0 +1,55 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<title> Review EV </title>
+<link href="css/stylesheet.css" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar1">
+    <a style="float:right" href="/search">Search</a>
+    <a style="float:right" href="/list">List</a>
+   {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+    <a style="float:right" href="/compare">Compare</a>
+    <a  style="float:right" href="/">Home</a>
+  </div>
+  <div class="bgimage">
+    <a href="#default"><img src="/img/review.png"/></a>
+    </div>
+  <div class="box1">
+      <table align="center">
+        Submit your reviews
+        <tr><td>
+ </td></tr>
+  <tr><td>
+<form method="post" action="/reviewform">
+Review :<textarea maxlength="1000" rows="4" cols="50" name="ev_review" value=" " required> </textarea>
+</td></tr>
+<tr><td>
+
+Rating : <input type="range" name="ev_rating" min="0" max="10" step="1" class="slider" id="rating_r" required>&nbsp;&nbsp;&nbsp;<span id="user_Rating"></span></td>
+<!-- script to display the value of the rating the user selects after sliding-->
+<script type="text/javascript">
+var rating = document.getElementById("rating_r");
+var output = document.getElementById("user_Rating");
+output.innerHTML = rating.value;
+rating.oninput = function() {
+output.innerHTML = this.value;
+}
+</script>
+</table>
+<table align="center">
+<tr><td>
+<input type="submit" value="Submit Review" name="button"/>
+<!-- to store the review as per the correct id of the ev-->
+ <input type="hidden" value="{{ev.key.id()}}" name="id"></td>
+
+</td>
+<td>
+
+<input type="submit" value="Cancel" name="button"/>
+</td></tr>
+  <table>
+</div>
+</form>
+</body>
+</html>

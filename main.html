@@ -1,0 +1,34 @@
+<html>
+<title> Home </title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+</head>
+<body>
+  <div class="navbar1">
+    <!-- Some links will be available only for logged in users . This is done using jinja2 -->
+    <!-- The pages that are listed here will be added as brackets progress -->
+    <a style="float:right" href="/search">Search</a>
+    <a style="float:right" href="/list">List</a>
+    {% if user %}<a style="float:right" href="/add">Add</a>{% endif %}
+    <a style="float:right" href="/compare">Compare</a>
+    <!--active class will have a different background colour -->
+    <a class="active" style="float:right" href="/">Home</a>
+  </div>
+<div class="bgimage">
+  <a href="#default"><img src="/img/EV.png"/></a>
+</div>
+
+<!-- Login logout -->
+<div class="box1_main">
+  {% if user %} {{ welcome }} {{ user.email() }} </br>
+  {% else %} <p>Hello guest welcome to the application</p>
+  {% endif %}
+</br>
+<div class="inset">
+ <p><a href='{{ url }}'>{{ url_string }}</a></p>
+</div>
+</div>
+</div>
+</body>
+</html>

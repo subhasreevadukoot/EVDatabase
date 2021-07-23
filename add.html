@@ -1,0 +1,63 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title> Add EV Information </title>
+
+  <link href="css/stylesheet.css" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar1">
+    <a style="float:right" href="/search">Search</a>
+    <a style="float:right" href="/list">List</a>
+    <!--active class will have a different background colour -->
+    {% if user %}<a class="active" style="float:right" href="/add">Add</a>{% endif %}
+    <a style="float:right" href="/compare">Compare</a>
+    <a style="float:right" href="/">Home</a>
+  </div>
+  <div class="bgimage">
+    <a href="#default"><img src="/img/add.png"/></a>
+  </div>
+
+
+<div class="box1">
+  <!-- form for adding an ev into the database  with validations-->
+    <table>
+<form method="post" action="/add">
+  <!-- All fields are marked required inorder to avoid null Information getting into the database -->
+<tr><td>
+Name:</td><td><input  type="text" name="ev_name" required/>
+</td></tr>
+<tr><td>Manufacturer:</td><td><input type="text" name="ev_manufacturer" required/>
+</td></tr>
+<tr><td>
+  <!-- Year is given a limit 1830-2020 because the first ev was Manufactured in 1830 and the current year is 2020. This validates user input -->
+Year:</td><td><input type="number" name="ev_year" min="1830" max="2020" placeholder="YYYY" required/>
+</td></tr>
+<tr><td>
+<!--The  4 variables are allowed to be float, but with specific conditions in the number of decimals -->
+<!--Negative numerical values will not be allowed-->
+Battery Size(Kwh):</td><td><input type="number" name="ev_battery_size"step="0.001" min="0" required />
+</td></tr>
+<tr><td>
+WLTP Range(Km):</td><td><input type="number" name="ev_WLTP_Range" step="0.001" min="0" required />
+</td></tr>
+<tr><td>
+Cost (in Euros):</td><td><input type="number" name="ev_cost" step="0.01" min="0" required />
+</td></tr>
+<tr><td>
+Power(Kw):</td><td><input type="number" name="ev_power" step="0.001" min="0" required />
+</td></tr>
+<tr><td>
+<input type="submit" style="float:left;" value="Add" name="button"/>
+</td>
+<td>
+</form>
+  <form method="post" action="/add">
+<input type="submit" style="float:left;" value="Cancel" name="button" />
+</form>
+</td></tr>
+  {{ message }}
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<html>
+<head>
+  <link href="css/stylesheet.css" rel="stylesheet">
+    <!-- To check if atleast 2 or more EVs are selected using javascript alert function -->
+  <script type="text/javascript">
+  var clicked;
+    function check() {
+      if(clicked=='Compare'){
+      if((document.querySelectorAll('input[type="checkbox"]:checked').length)>=2){
+        return true;
+      }else{
+        alert("Select 2 or more EVs to compare");
+        return false;
+      }}
+    }
+
+  </script>
+
+</head>
+<body>
+<div class="navbar1">
+
+  <a style="float:right" href="/search">Search</a>
+  <a style="float:right" href="/list">List</a>
+
+ {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+
+<a class="active" style="float:right" href="/compare">Compare</a>
+  <a  style="float:right" href="/">Home</a>
+</div>
+
+<div class="bgimage">
+  <a href="#default"><img src="/img/compare.png"/></a>
+  </div>
+  {% if evs %}
+<div class="box2">
+    <table align="center">
+<form method="post" action="/compare" onsubmit="return check();">
+
+  {% for ev in evs %}
+<tr><td>
+<input type="checkbox" id="comparenames" name="comparenames" value="{{ ev.key.id() }}"/> {{ ev.name }} - {{ev.manufacturer}} - {{ev.year}}
+<input type="hidden" name="id" value=" {{ ev.key.id() }}">
+</td></tr>
+{% endfor %}
+
+</table>
+  <table align="center">
+<tr><td>
+
+<input type="submit"   id="buttonc" value="Compare"  name="button" style="width:100%" onclick="clicked='Compare'" />
+</td>
+<td>
+<input type="submit"  id="button_Cancel" value="Cancel" name="button"  style="width:100%" onclick="clicked='Cancel' "/></td></tr>
+</table>
+{% else %}
+<!-- if there are no evs, logged in users can add data, and others will also displayed a message -->
+<div class="box1_main">
+<p>There are no EVS in the database currenly</p>
+ </br>
+ {% if user %}
+ <p>Would you like to add data?</p>
+<div class="inset">
+ <p><a href="/add">Add</a></p>
+</div>
+{%endif%}
+</div>
+{% endif %}
+</form>
+</td>
+</div>
+</body>
+</html>

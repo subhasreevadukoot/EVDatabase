@@ -1,0 +1,49 @@
+
+<html>
+<head>
+  <link href="css/stylesheet.css" rel="stylesheet">
+<title> EV List </title>
+</head>
+<body>
+  <div class="navbar1">
+    <a style="float:right" href="/search">Search</a>
+    <a class="active" style="float:right" href="/list">List</a>
+   {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+  <a style="float:right" href="/compare">Compare</a>
+    <a  style="float:right" href="/">Home</a>
+  </div>
+  <div class="bgimage">
+    <a href="#default"><img src="/img/list.png"/></a>
+    </div>
+    <div class="box1">
+      <!-- ev list to show to the user when the datastore is not empty -->
+    <form method="post" action="/list">
+      <table>
+        {% if evs %}
+    {% for ev in evs %}
+    <tr><td>
+      <!-- to dynamically generate hyperlinks for each ev based on the id -->
+     <!-- the information page of each ev will be filled based on this id -->
+      <a href="/evinfo?id={{ev.key.id()}}">{{ ev.name }} </a>
+    </td></tr>
+  {% endfor %}
+  {% else %}
+  <!-- When the datastore EV is empty, informing users there is no list to show and would they like to add an ev only if it is a logged in user -->
+  <div class="box1_main">
+  <p>There are no EVS in the database currenly</p>
+   </br>
+    {% if user %}
+   <p>Would you like to add data?</p>
+  <div class="inset">
+   <p><a href="/add">Add</a></p>
+  </div>
+  {%endif%}
+  </div>
+  {% endif %}
+</table>
+
+</form>
+
+</div>
+</body>
+</html>

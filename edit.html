@@ -1,0 +1,59 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title> Update User Information </title>
+  <link href="css/stylesheet.css" rel="stylesheet">
+</head>
+<body>
+  <div class="navbar1">
+    <a style="float:right" href="/search">Search</a>
+    <a style="float:right" href="/list">List</a>
+     {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+    <a class="active" style="float:right" href="/compare">Compare</a>
+    <a  style="float:right" href="/">Home</a>
+  </div>
+  <div class="bgimage">
+    <a href="#default"><img src="/img/edit.png"/></a>
+    </div>
+<div class="box1">
+<table>
+{% if ev %}
+<form method="post" action="/edit">
+<!-- the edit form follows the same format as add form. -->
+<tr><td>
+Name:</td><td><input type="text" name="ev_name" value="{{ ev.name}}" required/>
+</td></tr>
+<tr><td>
+Manufacturer:</td><td><input type="text" name="ev_manufacturer"  value="{{ ev.manufacturer}}" required/>
+</td></tr>
+<tr><td>
+Year:</td><td><input type="number" name="ev_year" min="1830" max="2020" placeholder="YYYY"  value="{{ ev.year}}" required/>
+</td></tr>
+<tr><td>
+  <!--Negative numerical values will not be allowed-->
+Battery Size(Kwh):</td><td><input type="number" name="ev_battery_size" step="0.001" min="0" value="{{ ev.battery_size}}" required />
+</td></tr>
+<tr><td>
+WLTP Range(Km):</td><td><input type="number" name="ev_WLTP_Range" step="0.001"  min="0" value="{{ ev.WLTP_Range}}" required />
+</td></tr>
+<tr><td>
+Cost (in Euros):</td><td><input type="number" name="ev_cost" step="0.01" min="0" value="{{ ev.cost}}" required />
+</td></tr>
+<tr><td>
+Power(Kw):</td><td><input type="number" name="ev_power" step="0.001" min="0" value="{{ ev.power}}" required />
+</td></tr>
+<tr><td>
+<input type="submit" style="float:left;" value="Update"  name="button"/>
+</td>
+<td>
+<input type="submit" style="float:left;" value="Cancel" name="button" />
+<input type="hidden" value="{{ev.key.id()}}" name="id"></td>
+</form>
+{% else %}
+{{message}}
+{% endif %}
+</tr></td>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+
+<html>
+<head>
+  <link href="css/stylesheet.css" rel="stylesheet">
+  <title> Information </title>
+</head>
+<body>
+  <div class="navbar1">
+    <a style="float:right" href="/search">Search</a>
+    <a style="float:right" href="/list">List</a>
+    {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+    <a style="float:right" href="/compare">Compare</a>
+    <a style="float:right" href="/">Home</a>
+  </div>
+  <div class="bgimage"
+    <a href="#default"><img src="/img/search1.png"/></a>
+  </div>
+  <div class="box2">
+    <!--Information to display-->
+<form method="post" action="/list"  onsubmit="return mysubmit();">
+<table>
+  <tr><th>Name</th><td>{{ ev.name }}</td></tr>
+  <tr><th>Manufacturer</th><td>{{ ev.manufacturer }}</td></tr>
+  <tr><th>Year</th><td>{{ ev.year}}</td></tr>
+  <tr><th>Battery Size(Kwh)</th><td>{{ ev.battery_size}}</td></tr>
+  <tr><th>Cost (in Euros)</th><td>{{ ev.cost}}</td></tr>
+  <tr><th>Power (Kw)</th><td>{{ ev.power}}</td></tr>
+  <tr><th>WLTP Range(Km)</th><td>{{ ev.WLTP_Range}}</td></tr>
+  <tr><th>Average Rating</th><td>{{ avg}}</td></tr>
+  <tr><th>Review</th><td style="word-break:break-all;"><ol>{% for i in query %}<li>{{ i.review}} </li></br> {% endfor %}</ol></td></tr>
+ {% if user %}
+  <tr>
+  <td>
+  <input type="submit" style="float:left;" value="Edit" name="button" onclick="clicked='Edit'"/>
+   </td>
+   <td>
+   <input type="submit" style="float:left;" value="Delete" name="button" onclick="clicked='Delete'" />
+     <input type="hidden" value="{{ev.key.id()}}" name="id"></td></tr>
+     <tr>
+     <td>
+     <input type="submit"  style="float:left;background-color:#63DAD9 ;" value="Review" name="button" onclick="clicked='Review'"/></td>
+   </td><td>
+     <input type="submit" style="float:left;" value="Back" name="button" onclick="clicked='Back'"/></td>
+    </tr>
+     {% endif %}
+</table>
+{% if user==None %}
+ <input type="submit" style="float:left;" value="Back" name="button" />
+  <input type="hidden" value="{{ev.key.id()}}" name="id"></td></tr>
+{% endif %}
+</form>
+</div>
+<!--confirmation is asked to the user before delete operation is carried out-->
+<script type="text/javascript">
+  var clicked;
+  function mysubmit() {
+      if(clicked=='Delete'){
+      return confirm("Are you sure you want to delete this EV and all related information?");
+    }else{
+      return true;
+    }
+  }
+</script>
+
+</body>
+</html>

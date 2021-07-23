@@ -1,0 +1,194 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title> Search User Information </title>
+  <link href="/css/stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="navbar1">
+        <a class="active" style="float:right" href="/search">Search</a>
+        <a style="float:right" href="/list">List</a>
+       {% if user %}<a style="float:right" href="/add">Add</a>  {% endif %}
+        <a style="float:right" href="/compare">Compare</a>
+        <a  style="float:right" href="/">Home</a>  </div>
+</div>
+<div class="wrap">
+    <div class="fleft">
+        <a href="#default"><img src="/img/search.png" style="width: 100%;" /></a>
+  </div>
+  <div class="fcenter">
+  <table >
+      <!--oncheck() function here performs validations while submit button is clicked-->
+  <form method="get" action="/search" onsubmit="return check();">
+  <tr>
+  <td>Name:<input type="text" name="ev_name" id="ev_name"  /></td>
+  <td>Manufacturer:<input type="text" name="ev_manufacturer" id="ev_manufacturer" /></td>
+  </tr>
+  <tr><td>
+  Year:<td> From: <input type="number" name="ev_yearf" id="ev_yearf"   id="ev_year_f" /></td>
+  <td> To: <input type="number" name="ev_yeart" id="ev_yeart"   id="ev_year_t" /></td> </td>
+  </tr></td>
+  <tr><td>
+  Battery Size(Kwh):<td> From: <input type="number" name="ev_battery_sizef"  step="0.001" id="ev_battery_size_f" /></td>
+  <td> To: <input type="number" name="ev_battery_sizet"  step="0.001" id="ev_battery_size_t" /></td> </td>
+  </tr></td>
+  <tr><td>
+  WLTP Range(Km):<td> From: <input type="number" name="ev_WLTP_Rangef"  step="0.001" id="ev_WLTP_Range_f" /></td>
+  <td> To: <input type="number" name="ev_WLTP_Ranget"   step="0.001" id="ev_WLTP_Range_t" /></td> </td>
+  </tr></td>
+  <tr><td>
+  Cost:<td> From: <input type="number" name="ev_costf"   step="0.01" id="ev_cost_f" /></td>
+  <td> To: <input type="number" name="ev_costt"   step="0.01" id="ev_cost_t" /></td> </td>
+  </tr>
+  <tr><td>
+  Power(Kw):<td> From: <input type="number" name="ev_powerf" step="0.001" id="ev_power_f" /></td>
+  <td> To: <input type="number" name="ev_powert"  step="0.001" id="ev_power_t" /></td> </td>
+  </tr>
+  <tr><td>
+
+  <input type="submit"   id="buttonc" value="Search"  name="button" style="width:100%" />
+  </td>
+  <td>
+  <input type="submit"  id="button_Cancel" value="Cancel" name="button"  style="width:100%"/></td></tr>
+</form>
+  </table>
+  </div>
+  <!--if there are no evs in the database users will be shown a different message, compared to the message shown when query doesn't satisfy-->
+<!-- evs will be passed from search.py file-->
+  {% if total_query %}
+    <div class="fright">
+      <table id="myTable" style="margin-left: 40px">
+        {% for ev in total_query %}
+        <tr>
+        <td>
+      <li><a href="/evinfo?id={{ ev.key.id()}}">{{ ev.name }}</a></li>
+      </td>
+      <td>{{ ev.manufacturer}} </td>
+      <td>{{ ev.year }}</td>
+      <td>{{ ev.battery_size }}</td>
+      <td>{{ ev.WLTP_Range }}</td>
+      <td>{{ ev.cost }}</td>
+      <td>{{ ev.power }}</td>
+      </tr>
+        {% endfor %}
+      </table>
+    </div>
+</div>
+{% else %}
+<p>Sorry, no records found!</p>
+</br>
+{%endif%}
+<script type="text/javascript">
+//javascript function to check if the search form is properly entered.
+function check() {
+
+    var checkYear = 1;
+    var checkBat = 1;
+    var checkWLTP = 1;
+    var checkCost = 1;
+    var checkPow = 1;
+
+    ev_yearf=document.getElementById("ev_yearf")
+    ev_yeart =document.getElementById("ev_yeart")
+
+    ev_battery_size_f=document.getElementById("ev_battery_size_f")
+    ev_battery_size_t=document.getElementById("ev_battery_size_t")
+
+    ev_WLTP_Range_f=document.getElementById("ev_WLTP_Range_f")
+    ev_WLTP_Range_t=document.getElementById("ev_WLTP_Range_t")
+
+    ev_cost_f=document.getElementById("ev_cost_f")
+    ev_cost_t=document.getElementById("ev_cost_t")
+
+    ev_power_f=document.getElementById("ev_power_f")
+    ev_power_t=document.getElementById("ev_power_t")
+
+// Checking all numerical values, if the to value is greater than from value or not
+// Checking if 'from' and 'to' both fields are entered or not.
+    if(parseInt(ev_yearf.value) > -1 || parseInt(ev_yeart.value) >-1 ){
+        if(parseInt(ev_yearf.value) > -1 && parseInt(ev_yeart.value) >-1  ){
+          if(parseInt(ev_yearf.value) <= parseInt(ev_yeart.value)){
+            checkYear = 1;
+          }else{
+            alert(" Year- To cannot be less than From");
+             checkYear = 0;
+          }
+        }else{
+           alert("  Please Enter values for both 'From' and 'To' ");
+           checkYear = 0;
+        }
+      }
+
+if(parseInt(ev_battery_size_f.value) >-1 || parseInt(ev_battery_size_t.value) >-1  ){
+    if(parseInt(ev_battery_size_f.value) >-1 && parseInt(ev_battery_size_t.value) >-1  ){
+      if(parseInt(ev_battery_size_f.value) <= parseInt(ev_battery_size_t.value)){
+           checkBat =  1;
+      }else{
+        alert(" Size -To cannot be less than From");
+         checkBat = 0;
+      }
+    }else{
+      alert(" Please Enter values for both 'From' and 'To' ");
+       checkBat = 0;
+    }
+  }
+
+
+if(parseInt(ev_WLTP_Range_f.value) >-1 || parseInt(ev_WLTP_Range_t.value) >-1  ){
+    if(parseInt(ev_WLTP_Range_f.value) >-1 && parseInt(ev_WLTP_Range_t.value) >-1  ){
+      if(parseInt(ev_WLTP_Range_f.value) <= parseInt(ev_WLTP_Range_t.value)){
+           checkWLTP =  1;
+      }else{
+        alert("WLTP Range- To cannot be less than From");
+         checkWLTP = 0;
+      }
+    }else{
+      alert(" Please Enter values for both 'From' and 'To' ");
+       checkWLTP = 0;
+    }
+  }
+
+
+  if(parseInt(ev_cost_f.value) >-1 || parseInt(ev_cost_t.value) >-1  ){
+    if(parseInt(ev_cost_f.value) >-1 && parseInt(ev_cost_t.value) >-1  ){
+      if(parseInt(ev_cost_f.value) <= parseInt(ev_cost_t.value)){
+           checkCost =  1;
+      }else{
+        alert("Cost- To cannot be less than From");
+         checkCost = 0;
+      }
+    }else{
+      alert(" Please Enter values for both 'From' and 'To' ");
+       checkCost = 0;
+    }
+  }
+
+
+if(parseInt(ev_power_f.value) >-1 || parseInt(ev_power_t.value) >-1  ){
+    if(parseInt(ev_power_f.value) >-1 && parseInt(ev_power_t.value) >-1  ){
+     if(parseInt(ev_power_f.value) <= parseInt(ev_power_t.value)){
+           checkPow =  1;
+      }else{
+        alert("Power- To cannot be less than From");
+         checkPow = 0;
+      }
+    }else{
+      alert(" Please Enter values for both 'From' and 'To' ");
+       checkPow = 0;
+    }
+  }
+
+
+    if(checkYear==1 && checkBat==1  && checkWLTP==1 && checkCost==1 && checkPow==1){
+
+      return true;
+    }else{
+
+      return false;
+    }
+
+
+  }
+</script>
+</body>
+</html>
